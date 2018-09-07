@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \SebastianBergmann\FileIterator\Finder\Files
  *
  * @uses \SebastianBergmann\FileIterator\Filter\SubString
+ * @uses \SebastianBergmann\FileIterator\WildcardPaths
  */
 final class FilesTest extends TestCase
 {

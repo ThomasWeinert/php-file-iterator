@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace SebastianBergmann\FileIterator\Finder;
 
 use SebastianBergmann\FileIterator\Filter\SubString as SubStringFilter;
+use SebastianBergmann\FileIterator\WildcardPaths;
 
 final class Files implements \IteratorAggregate
 {
@@ -38,10 +39,7 @@ final class Files implements \IteratorAggregate
         $prefixes = '',
         $suffixes = ''
     ) {
-        if (\is_string($paths)) {
-            $paths = [$paths];
-        }
-        $this->paths    = $this->getPathsAfterResolvingWildcards($paths);
+        $this->paths    = $paths;
         $this->prefixes = $prefixes;
         $this->suffixes = $suffixes;
     }
@@ -58,7 +56,7 @@ final class Files implements \IteratorAggregate
             SubStringFilter::PREFIX
         );
 
-        foreach ($this->paths as $path) {
+        foreach (new WildcardPaths($this->paths) as $path) {
             $files->append(
                 new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator(
@@ -70,27 +68,5 @@ final class Files implements \IteratorAggregate
         }
 
         return $filteredFiles;
-    }
-
-    /**
-     * Expand paths with wildcards into an array of existing paths
-     *
-     * @param array $paths
-     *
-     * @return array
-     */
-    private function getPathsAfterResolvingWildcards(array $paths): array
-    {
-        $_paths = [];
-
-        foreach ($paths as $path) {
-            if ($locals = \glob($path, GLOB_ONLYDIR)) {
-                \array_push($_paths, ...\array_map('\realpath', $locals));
-            } else {
-                $_paths[] = \realpath($path);
-            }
-        }
-
-        return \array_filter(\array_unique($_paths));
     }
 }
