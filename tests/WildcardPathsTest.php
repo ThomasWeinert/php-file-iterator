@@ -21,9 +21,9 @@ final class WildcardPathsTest extends TestCase
 {
     public function testExpandToCurrentDirectory(): void
     {
-        $paths = new WildcardPaths(basename(__DIR__).'/F*');
+        $paths = new WildcardPaths(\basename(__DIR__) . '/F*');
         $this->assertEquals(
-            [\realpath(__DIR__.'/Filter'), \realpath(__DIR__.'/Finder')],
+            [\realpath(__DIR__ . '/Filter'), \realpath(__DIR__ . '/Finder')],
             \iterator_to_array($paths)
         );
     }
