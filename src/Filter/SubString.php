@@ -1,10 +1,18 @@
 <?php
+declare(strict_types=1);
+/*
+ * This file is part of php-file-iterator.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace SebastianBergmann\FileIterator\Filter;
 
-class SubString extends \FilterIterator
+final class SubString extends \FilterIterator
 {
-
     public const PREFIX = 0;
     public const SUFFIX = 1;
 
@@ -12,13 +20,14 @@ class SubString extends \FilterIterator
     private $type;
 
     /**
-     * @param \Iterator $iterator
-     * @param string|array $subStrings
-     * @param int $type
+     * @param \Iterator    $iterator
+     * @param array|string $subStrings
+     * @param int          $type
      */
     public function __construct(\Iterator $iterator, $subStrings = '', $type = self::SUFFIX)
     {
         parent::__construct($iterator);
+
         if (\is_string($subStrings)) {
             if ($subStrings !== '') {
                 $subStrings = [$subStrings];
@@ -27,7 +36,7 @@ class SubString extends \FilterIterator
             }
         }
         $this->subStrings = $subStrings;
-        $this->type = $type;
+        $this->type       = $type;
     }
 
     /**
