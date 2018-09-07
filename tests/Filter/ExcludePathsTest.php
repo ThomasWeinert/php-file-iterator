@@ -21,14 +21,14 @@ final class ExcludePathsTest extends TestCase
 {
     public function testIterateFiltersElementsWhichAreNotFiles(): void
     {
-        $filePaths = [
-            __DIR__ . '/../_fixture/Foo.php',
-            __DIR__ . '/../_fixture/Bar.php',
+        $expectedFilePaths = [
+            \realpath(__DIR__ . '/../_fixture/Foo.php'),
+            \realpath(__DIR__ . '/../_fixture/Bar.php'),
         ];
 
         $files = \array_map(function (string $path): \SplFileInfo {
             return new \SplFileInfo($path);
-        }, $filePaths);
+        }, $expectedFilePaths);
 
         $iterator = new \ArrayIterator(\array_merge($files, [
             'foo',
@@ -39,19 +39,19 @@ final class ExcludePathsTest extends TestCase
         $iterated = \iterator_to_array($filter);
 
         $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
-        $this->assertCount(\count($filePaths), $iterated);
+        $this->assertEquals($expectedFilePaths, $iterated);
     }
 
     public function testIterateReturnsAllElementsWhenExcludePathsAreEmpty(): void
     {
-        $filePaths = [
-            __DIR__ . '/../_fixture/Foo.php',
-            __DIR__ . '/../_fixture/Bar.php',
+        $expectedFilePaths = [
+            \realpath(__DIR__ . '/../_fixture/Foo.php'),
+            \realpath(__DIR__ . '/../_fixture/Bar.php'),
         ];
 
         $files = \array_map(function (string $path): \SplFileInfo {
             return new \SplFileInfo($path);
-        }, $filePaths);
+        }, $expectedFilePaths);
 
         $iterator = new \ArrayIterator($files);
 
@@ -60,14 +60,14 @@ final class ExcludePathsTest extends TestCase
         $iterated = \iterator_to_array($filter);
 
         $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
-        $this->assertCount(\count($filePaths), $iterated);
+        $this->assertEquals($expectedFilePaths, $iterated);
     }
 
     public function testIterateFiltersElementsWhichAreInExcludedPath(): void
     {
-        $filePaths = [
-            __DIR__ . '/../_fixture/Foo.php',
-            __DIR__ . '/../_fixture/Bar.php',
+        $expectedFilePaths = [
+            \realpath(__DIR__ . '/../_fixture/Foo.php'),
+            \realpath(__DIR__ . '/../_fixture/Bar.php'),
         ];
 
         $excludedFilePaths = [
@@ -76,7 +76,7 @@ final class ExcludePathsTest extends TestCase
 
         $files = \array_map(function (string $path): \SplFileInfo {
             return new \SplFileInfo($path);
-        }, \array_merge($filePaths, $excludedFilePaths));
+        }, \array_merge($expectedFilePaths, $excludedFilePaths));
 
         $iterator = new \ArrayIterator($files);
 
@@ -88,14 +88,14 @@ final class ExcludePathsTest extends TestCase
         $iterated = \iterator_to_array($filter);
 
         $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
-        $this->assertCount(\count($filePaths), $iterated);
+        $this->assertEquals($expectedFilePaths, $iterated);
     }
 
     public function testIterateFiltersElementsWhichAreInExcludedPaths(): void
     {
-        $filePaths = [
-            __DIR__ . '/../_fixture/Foo.php',
-            __DIR__ . '/../_fixture/Bar.php',
+        $expectedFilePaths = [
+            \realpath(__DIR__ . '/../_fixture/Foo.php'),
+            \realpath(__DIR__ . '/../_fixture/Bar.php'),
         ];
 
         $excludedFilePaths = [
@@ -105,7 +105,7 @@ final class ExcludePathsTest extends TestCase
 
         $files = \array_map(function (string $path): \SplFileInfo {
             return new \SplFileInfo($path);
-        }, \array_merge($filePaths, $excludedFilePaths));
+        }, \array_merge($expectedFilePaths, $excludedFilePaths));
 
         $iterator = new \ArrayIterator($files);
 
@@ -120,6 +120,6 @@ final class ExcludePathsTest extends TestCase
         $iterated = \iterator_to_array($filter);
 
         $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
-        $this->assertCount(\count($filePaths), $iterated);
+        $this->assertEquals($expectedFilePaths, $iterated);
     }
 }
