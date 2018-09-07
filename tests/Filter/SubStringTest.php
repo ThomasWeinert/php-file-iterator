@@ -13,12 +13,12 @@ namespace SebastianBergmann\FileIterator\Filter;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \SebastianBergmann\FileIterator\Filter\SubString
+ */
 final class SubStringTest extends TestCase
 {
 
-    /**
-     * @covers \SebastianBergmann\FileIterator\Filter\SubString
-     */
     public function testMatchingSuffix(): void
     {
         $filter = new SubString(
@@ -28,9 +28,6 @@ final class SubStringTest extends TestCase
         $this->assertCount(1, $filter);
     }
 
-    /**
-     * @covers \SebastianBergmann\FileIterator\Filter\SubString
-     */
     public function testMatchingWithEmptySuffix(): void
     {
         $filter = new SubString(
@@ -40,9 +37,6 @@ final class SubStringTest extends TestCase
         $this->assertCount(1, $filter);
     }
 
-    /**
-     * @covers \SebastianBergmann\FileIterator\Filter\SubString
-     */
     public function testNonMatchingSuffix(): void
     {
         $filter = new SubString(
@@ -52,12 +46,8 @@ final class SubStringTest extends TestCase
         $this->assertCount(0, $filter);
     }
 
-    /**
-     * @covers \SebastianBergmann\FileIterator\Filter\SubString
-     */
     public function testMatchingWithMultipleSuffixes(): void
     {
-
         $filter = new SubString(
             $this->getFilesFixture(['ExampleTest.php', 'example_test.php']),
             ['Test.php', '_test.php']
@@ -65,9 +55,6 @@ final class SubStringTest extends TestCase
         $this->assertCount(2, $filter);
     }
 
-    /**
-     * @covers \SebastianBergmann\FileIterator\Filter\SubString
-     */
     public function testMatchingPrefix(): void
     {
         $filter = new SubString(
@@ -78,9 +65,6 @@ final class SubStringTest extends TestCase
         $this->assertCount(1, $filter);
     }
 
-    /**
-     * @covers \SebastianBergmann\FileIterator\Filter\SubString
-     */
     public function testMatchingWithEmptyPrefix(): void
     {
         $filter = new SubString(
@@ -91,9 +75,6 @@ final class SubStringTest extends TestCase
         $this->assertCount(1, $filter);
     }
 
-    /**
-     * @covers \SebastianBergmann\FileIterator\Filter\SubString
-     */
     public function testNonMatchingPrefix(): void
     {
         $filter = new SubString(
