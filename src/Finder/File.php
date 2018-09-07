@@ -12,45 +12,26 @@ declare(strict_types=1);
 
 namespace SebastianBergmann\FileIterator\Finder;
 
-final class File implements \Iterator
+final class File implements \IteratorAggregate
 {
     /**
      * @var string
      */
     private $path;
 
-    /**
-     * @var bool
-     */
-    private $hasIterated = false;
-
     public function __construct(string $path)
     {
         $this->path = $path;
     }
 
-    public function current(): \SplFileInfo
+    public function getIterator(): \ArrayIterator
     {
-        return new \SplFileInfo($this->path);
-    }
+        if (!\file_exists($this->path)) {
+            return new \ArrayIterator();
+        }
 
-    public function next(): void
-    {
-        $this->hasIterated = true;
-    }
-
-    public function key()
-    {
-        return $this->path;
-    }
-
-    public function valid(): bool
-    {
-        return !$this->hasIterated && \file_exists($this->path);
-    }
-
-    public function rewind(): void
-    {
-        $this->hasIterated = false;
+        return new \ArrayIterator([
+            new \SplFileInfo($this->path),
+        ]);
     }
 }
