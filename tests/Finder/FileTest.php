@@ -14,6 +14,9 @@ namespace SebastianBergmann\FileIterator\Finder;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \SebastianBergmann\FileIterator\Finder\File
+ */
 final class FileTest extends TestCase
 {
     public function testIterateWhenFileDoesNotExist(): void
