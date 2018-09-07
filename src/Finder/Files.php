@@ -57,6 +57,9 @@ final class Files implements \IteratorAggregate
         );
 
         foreach (new WildcardPaths($this->paths) as $path) {
+            if (!\is_dir($path)) {
+                continue;
+            }
             $files->append(
                 new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator(

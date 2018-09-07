@@ -63,4 +63,10 @@ final class FilesTest extends TestCase
         $files = new Files(__DIR__ . '/_fixtures', '', 'invalid');
         $this->assertCount(0, $files);
     }
+
+    public function testFilesWithFileAsPath(): void
+    {
+        $files = new Files(__DIR__ . '/_fixtures/Files/dummy.txt');
+        $this->assertCount(0, $files);
+    }
 }
