@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \SebastianBergmann\FileIterator\Filter\ExcludePaths
+ *
+ * @uses \SebastianBergmann\FileIterator\WildcardPaths
  */
 final class ExcludePathsTest extends TestCase
 {

@@ -40,7 +40,10 @@ final class ExcludePaths extends \FilterIterator
         $filePath = $file->getRealPath();
 
         foreach ($this->excludePaths as $excludePath) {
-            if ($excludePath === $filePath || 0 === \strpos($filePath, $excludePath . '/')) {
+            if (
+                $excludePath === $filePath ||
+                0 === \strpos($filePath, $excludePath . DIRECTORY_SEPARATOR)
+            ) {
                 return false;
             }
         }
