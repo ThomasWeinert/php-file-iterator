@@ -122,4 +122,36 @@ final class ExcludePathsTest extends TestCase
         $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
         $this->assertEquals($expectedFilePaths, $iterated);
     }
+
+    public function testIterateFiltersElementsWhichAreInOrEqualExcludedPaths(): void
+    {
+        $expectedFilePaths = [
+            \realpath(__DIR__ . '/../_fixture/Foo/Bar.php'),
+            \realpath(__DIR__ . '/../_fixture/Bar.php'),
+        ];
+
+        $excludedFilePaths = [
+            __DIR__ . '/../_fixture/Foo.php',
+            __DIR__ . '/../_fixture/Bar/Baz.php',
+        ];
+
+        $files = \array_map(function (string $path): \SplFileInfo {
+            return new \SplFileInfo($path);
+        }, \array_merge($expectedFilePaths, $excludedFilePaths));
+
+        $iterator = new \ArrayIterator($files);
+
+        $filter = new ExcludePaths(
+            $iterator,
+            [
+                __DIR__ . '/../_fixture/Foo.php',
+                __DIR__ . '/../_fixture/Bar',
+            ]
+        );
+
+        $iterated = \iterator_to_array($filter);
+
+        $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
+        $this->assertEquals($expectedFilePaths, $iterated);
+    }
 }
