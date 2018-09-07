@@ -41,7 +41,7 @@ final class FileTest extends TestCase
         $this->assertCount(1, $iterated);
         $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
 
-        $file = array_shift($iterated);
+        $file = \array_shift($iterated);
 
         $this->assertSame($path, $file->getRealPath());
     }

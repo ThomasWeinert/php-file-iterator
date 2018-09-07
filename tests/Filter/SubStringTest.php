@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class SubStringTest extends TestCase
 {
-
     public function testMatchingSuffix(): void
     {
         $filter = new SubString(
@@ -88,13 +87,15 @@ final class SubStringTest extends TestCase
     private function getFilesFixture(array $fileNames): \ArrayIterator
     {
         $files = [];
+
         foreach ($fileNames as $fileName) {
-          $files[] = $stub = $this->createMock(\SplFileInfo::class);
-          $stub
+            $files[] = $stub = $this->createMock(\SplFileInfo::class);
+            $stub
               ->expects($this->any())
               ->method('getFilename')
               ->willReturn($fileName);
         }
+
         return new \ArrayIterator($files);
     }
 }
