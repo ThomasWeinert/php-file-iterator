@@ -25,23 +25,50 @@ final class FileTest extends TestCase
 
         $finder = new File($path);
 
-        $iterated = \iterator_to_array($finder);
+        $iterated = \iterator_to_array(
+            $finder,
+            false
+        );
 
         $this->assertCount(0, $iterated);
     }
 
-    public function testIterateWhenFileExists(): void
+    public function testIterateWhenFileExistsWithoutKeys(): void
     {
         $path = __FILE__;
 
         $finder = new File($path);
 
-        $iterated = \iterator_to_array($finder);
+        $iterated = \iterator_to_array(
+            $finder,
+            false
+        );
 
         $this->assertCount(1, $iterated);
         $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
 
         $file = \array_shift($iterated);
+
+        $this->assertSame($path, $file->getRealPath());
+    }
+
+    public function testIterateWhenFileExistsWithKeys(): void
+    {
+        $path = __FILE__;
+
+        $finder = new File($path);
+
+        $iterated = \iterator_to_array(
+            $finder,
+            true
+        );
+
+        $this->assertCount(1, $iterated);
+        $this->assertContainsOnlyInstancesOf(\SplFileInfo::class, $iterated);
+        $this->assertArrayHasKey($path, $iterated);
+
+        /** @var \SplFileInfo $file */
+        $file = $iterated[$path];
 
         $this->assertSame($path, $file->getRealPath());
     }
